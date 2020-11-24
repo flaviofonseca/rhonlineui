@@ -12,6 +12,10 @@ const routes: Routes = [
         loadChildren: () => import('./funcionario/funcionario.module').then(m => m.FuncionarioModule)
       },
       {
+        path: 'estacao-ponto',
+        loadChildren: () => import('./estacao-ponto/estacao-ponto.module').then(m => m.EstacaoPontoModule)
+      },
+      {
         path: ``, redirectTo: 'funcionario', pathMatch: 'full'
       }
     ]

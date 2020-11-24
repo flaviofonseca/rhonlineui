@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-cadastro-funcionario',
@@ -8,9 +9,25 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 })
 export class CadastroFuncionarioComponent implements OnInit {
 
-  constructor() { }
+  formGroup: FormGroup;
+
+  constructor(formBuilder: FormBuilder) {
+
+    this.formGroup = formBuilder.group({
+      id: [],
+      cpf: [],
+      nome: [null, Validators.required],
+      matricula: [null, Validators.required],
+      dataAdmissao: [null, Validators.required]
+    });
+
+    this.formGroup.get(`id`).disable();
+  }
 
   ngOnInit(): void {
   }
 
+  procurar(event) {
+
+  }
 }
