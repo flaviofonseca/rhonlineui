@@ -6,6 +6,7 @@ import { ListagemFuncionarioComponent } from './listagem-funcionario/listagem-fu
 const routes: Routes = [
   { path: '', component: ListagemFuncionarioComponent },
   { path: 'cadastro', component: CadastroFuncionarioComponent },
+  { path: 'cadastro/:id', component: CadastroFuncionarioComponent }
 ];
 
 @NgModule({

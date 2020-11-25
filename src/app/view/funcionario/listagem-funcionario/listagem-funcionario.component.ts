@@ -1,4 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Route } from '@angular/compiler/src/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
+import { filter, finalize } from 'rxjs/operators';
+import { ConfirmDialogService } from 'src/app/core/componentes/confirm-dialog/confirm-dialog.service';
+import { LoadingService } from 'src/app/core/service/loading.service';
+import { FuncionarioService } from 'src/app/service/funcionario.service';
 
 @Component({
   selector: 'app-listagem-funcionario',
@@ -8,9 +14,60 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 })
 export class ListagemFuncionarioComponent implements OnInit {
 
-  constructor() { }
+  data;
+  displayedColumns: string[] = ['id', 'nome', 'cpf', 'matricula', 'acao'];
+
+  constructor(
+    private router: Router,
+    private cdf: ChangeDetectorRef,
+    private confirmDialogService: ConfirmDialogService,
+    private funcionarioService: FuncionarioService,
+    private loadingService: LoadingService
+  ) { }
 
   ngOnInit(): void {
+    this.listarFuncionarios();
+  }
+
+  adicionarNovo(): void {
+    this.router.navigate(['view/funcionario/cadastro']);
+  }
+
+  editar(element): void {
+    this.router.navigate(['view/funcionario/cadastro', element.id]);
+  }
+
+  excluir(element): void {
+    const config = {
+      question: 'Deseja realmente excluir esse registro?',
+      titulo: 'Exclusão de registro'
+    };
+
+    this.confirmDialogService.confirmDialog(config)
+      .pipe(filter(e => e))
+      .subscribe(() => this.deletarFuncionario(element));
+  }
+
+  deletarFuncionario(element): void {
+    this.loadingService.addLoading();
+    this.funcionarioService.excluirFuncionario(element.id)
+      .pipe(finalize(() => this.loadingService.removerLoading()))
+      .subscribe(e => {
+        this.cdf.markForCheck();
+        this.pesquisar();
+      });
+  }
+
+  pesquisar(): void {
+    this.listarFuncionarios();
+  }
+
+  listarFuncionarios(): void {
+    this.loadingService.addLoading();
+    this.data = this.funcionarioService.listarTodos()
+      .pipe(
+        finalize(() => this.loadingService.removerLoading())
+      );
   }
 
 }

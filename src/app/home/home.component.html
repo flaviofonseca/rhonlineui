@@ -1,1 +1,19 @@
-<p>home works!</p>
+<div>
+  <button
+    mat-button
+    [matMenuTriggerFor]="menu">
+    Cadastros
+  </button>
+  <mat-menu #menu="matMenu">
+    <button
+      mat-menu-item
+      routerLink="/view/funcionario">
+      Cargo
+    </button>
+    <button
+      mat-menu-item
+      routerLink="/view/funcionario">
+      Funcionário
+    </button>
+  </mat-menu>
+</div>

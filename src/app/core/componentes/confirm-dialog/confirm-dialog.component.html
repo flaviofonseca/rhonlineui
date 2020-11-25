@@ -1,0 +1,22 @@
+<h1
+  mat-dialog-title
+  *ngIf="data.titulo">{{data.titulo}}</h1>
+<div mat-dialog-content>
+  <p>{{data.question}}</p>
+</div>
+<div
+  mat-dialog-actions
+  class="div-actions">
+  <button
+    class="btn action-botao-primary"
+    (click)="fechar('SIM')"
+    cdkFocusInitial>
+    Sim
+  </button>
+  <button
+    (click)="fechar('NAO')"
+    class="btn btn-primary-outline action-botao-secundary"
+    [mat-dialog-close]>
+    Não
+  </button>
+</div>
