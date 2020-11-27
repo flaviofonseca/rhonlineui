@@ -2,7 +2,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { Router } from '@angular/router';
 import { filter, finalize } from 'rxjs/operators';
 import { ConfirmDialogService } from 'src/app/core/componentes/confirm-dialog/confirm-dialog.service';
+import { AlertService } from 'src/app/core/service/alert.service';
 import { LoadingService } from 'src/app/core/service/loading.service';
+import { UtilError } from 'src/app/core/util/utilerror';
 import { FuncionarioService } from 'src/app/service/funcionario.service';
 
 @Component({
@@ -21,7 +23,8 @@ export class ListagemFuncionarioComponent implements OnInit {
     private cdf: ChangeDetectorRef,
     private confirmDialogService: ConfirmDialogService,
     private funcionarioService: FuncionarioService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -54,7 +57,8 @@ export class ListagemFuncionarioComponent implements OnInit {
       .subscribe(e => {
         this.cdf.markForCheck();
         this.pesquisar();
-      });
+      },
+        error => UtilError.dispatchMessageError(error, this.alertService));
   }
 
   pesquisar(): void {

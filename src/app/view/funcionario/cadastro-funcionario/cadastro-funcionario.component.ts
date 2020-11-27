@@ -1,14 +1,14 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { debounceTime, distinctUntilChanged, filter, finalize, switchMap } from 'rxjs/operators';
+import { AlertService, TypeSnackMessage } from 'src/app/core/service/alert.service';
+import { LoadingService } from 'src/app/core/service/loading.service';
+import { UtilError } from 'src/app/core/util/utilerror';
+import { CargoService } from 'src/app/service/cargo.service';
 import { CidadeService } from 'src/app/service/cidade.service';
 import { FuncionarioService } from 'src/app/service/funcionario.service';
 import { PessoaService } from 'src/app/service/pessoa.service';
-import { debounceTime, distinctUntilChanged, filter, finalize, switchMap } from 'rxjs/operators';
-import { LoadingService } from 'src/app/core/service/loading.service';
-import { AlertService, TypeSnackMessage } from 'src/app/core/service/alert.service';
-import { UtilError } from 'src/app/core/util/utilerror';
-import { ActivatedRoute } from '@angular/router';
-import { CargoService } from 'src/app/service/cargo.service';
 @Component({
   selector: 'app-cadastro-funcionario',
   templateUrl: './cadastro-funcionario.component.html',
