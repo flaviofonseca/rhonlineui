@@ -8,6 +8,7 @@ import { LoadingService } from 'src/app/core/service/loading.service';
 import { AlertService, TypeSnackMessage } from 'src/app/core/service/alert.service';
 import { UtilError } from 'src/app/core/util/utilerror';
 import { ActivatedRoute } from '@angular/router';
+import { CargoService } from 'src/app/service/cargo.service';
 @Component({
   selector: 'app-cadastro-funcionario',
   templateUrl: './cadastro-funcionario.component.html',
@@ -17,7 +18,6 @@ import { ActivatedRoute } from '@angular/router';
 export class CadastroFuncionarioComponent implements OnInit {
 
   pessoa;
-  cidadeControl = new FormControl();
   formGroup: FormGroup;
 
   breadCrumb = [
@@ -33,17 +33,22 @@ export class CadastroFuncionarioComponent implements OnInit {
   cidades;
   cidadeSelecionada;
 
+  cargos;
+  cargoSelecionado;
+
   constructor(
     private formBuilder: FormBuilder,
     private loadingService: LoadingService,
     private alertService: AlertService,
     private pessoaService: PessoaService,
     private cidadeService: CidadeService,
+    private cargoService: CargoService,
     private activatedRoute: ActivatedRoute,
     private funcionarioService: FuncionarioService) {
 
     this.criarFormulario();
     this.adicionarEscutaCidade();
+    this.adicionarEscutaCargo();
   }
 
   private criarFormulario(): void {
@@ -51,6 +56,7 @@ export class CadastroFuncionarioComponent implements OnInit {
       id: [],
       matricula: [null, Validators.required],
       dataAdmissao: [null, Validators.required],
+      cargo: [null, Validators.required],
       pessoa: this.formBuilder.group({
         id: [],
         cpf: [null, Validators.required],
@@ -77,6 +83,31 @@ export class CadastroFuncionarioComponent implements OnInit {
       );
   }
 
+  displayFnCidade(cidade): string {
+    return cidade && cidade.nomeCidade ? `${cidade.nomeCidade} - ${cidade.uf}` : '';
+  }
+
+  onCidadeSelected(event): void {
+    this.cidadeSelecionada = event?.option?.value;
+  }
+
+  private adicionarEscutaCargo(): void {
+    this.cargos = this.formGroup.get('cargo').valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(e => this.cargoService.obterPeloTermo(e))
+      );
+  }
+
+  displayFnCargo(cargo): string {
+    return cargo?.nomeCargo;
+  }
+
+  onCargoSelected(event): void {
+    this.cargoSelecionado = event?.option?.value;
+  }
+
   ngOnInit(): void {
     this.activatedRoute.params
       .pipe(filter(res => res.id))
@@ -88,14 +119,6 @@ export class CadastroFuncionarioComponent implements OnInit {
       .subscribe(result => {
         this.formGroup.patchValue(result);
       });
-  }
-
-  displayFnCidade(cidade): string {
-    return cidade && cidade.nomeCidade ? `${cidade.nomeCidade} - ${cidade.uf}` : '';
-  }
-
-  onCidadeSelected(event): void {
-    this.cidadeSelecionada = event?.option?.value;
   }
 
   procurarPessoaPeloCPF(event): void {

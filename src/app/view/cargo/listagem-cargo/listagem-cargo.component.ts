@@ -3,37 +3,37 @@ import { Router } from '@angular/router';
 import { filter, finalize } from 'rxjs/operators';
 import { ConfirmDialogService } from 'src/app/core/componentes/confirm-dialog/confirm-dialog.service';
 import { LoadingService } from 'src/app/core/service/loading.service';
-import { FuncionarioService } from 'src/app/service/funcionario.service';
+import { CargoService } from 'src/app/service/cargo.service';
 
 @Component({
-  selector: 'app-listagem-funcionario',
-  templateUrl: './listagem-funcionario.component.html',
-  styleUrls: ['./listagem-funcionario.component.scss'],
+  selector: 'app-listagem-cargo',
+  templateUrl: './listagem-cargo.component.html',
+  styleUrls: ['./listagem-cargo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListagemFuncionarioComponent implements OnInit {
+export class ListagemCargoComponent implements OnInit {
 
   data;
-  displayedColumns: string[] = ['id', 'nome', 'cpf', 'matricula', 'acao'];
+  displayedColumns: string[] = ['id', 'nomeCargo', 'acao'];
 
   constructor(
     private router: Router,
     private cdf: ChangeDetectorRef,
     private confirmDialogService: ConfirmDialogService,
-    private funcionarioService: FuncionarioService,
+    private cargoService: CargoService,
     private loadingService: LoadingService
   ) { }
 
   ngOnInit(): void {
-    this.listarFuncionarios();
+    this.listarCargos();
   }
 
   adicionarNovo(): void {
-    this.router.navigate(['view/funcionario/cadastro']);
+    this.router.navigate(['view/cargo/cadastro']);
   }
 
   editar(element): void {
-    this.router.navigate(['view/funcionario/cadastro', element.id]);
+    this.router.navigate(['view/cargo/cadastro', element.id]);
   }
 
   excluir(element): void {
@@ -44,12 +44,12 @@ export class ListagemFuncionarioComponent implements OnInit {
 
     this.confirmDialogService.confirmDialog(config)
       .pipe(filter(e => e))
-      .subscribe(() => this.deletarFuncionario(element));
+      .subscribe(() => this.deletarCargo(element));
   }
 
-  deletarFuncionario(element): void {
+  deletarCargo(element): void {
     this.loadingService.addLoading();
-    this.funcionarioService.excluirFuncionario(element.id)
+    this.cargoService.excluirCargo(element.id)
       .pipe(finalize(() => this.loadingService.removerLoading()))
       .subscribe(e => {
         this.cdf.markForCheck();
@@ -58,15 +58,13 @@ export class ListagemFuncionarioComponent implements OnInit {
   }
 
   pesquisar(): void {
-    this.listarFuncionarios();
+    this.listarCargos();
   }
 
-  listarFuncionarios(): void {
+  listarCargos(): void {
     this.loadingService.addLoading();
-    this.data = this.funcionarioService.listarTodos()
-      .pipe(
-        finalize(() => this.loadingService.removerLoading())
-      );
+    this.data = this.cargoService.listarTodos()
+      .pipe(finalize(() => this.loadingService.removerLoading()));
   }
 
 }

@@ -7,6 +7,7 @@ import { ViewComponent } from './view.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [ViewComponent],
@@ -14,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
     CommonModule,
     MatIconModule,
     MatToolbarModule,
+    MatMenuModule,
     MatButtonModule,
     ViewRoutingModule
   ]

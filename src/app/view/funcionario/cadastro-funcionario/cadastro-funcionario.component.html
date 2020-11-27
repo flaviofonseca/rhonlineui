@@ -64,6 +64,32 @@
                 placeholder="Nome funcionário">
             </mat-form-field>
           </div>
+          <div class="col-sm-6">
+            <mat-form-field class="example-full-width">
+              <input
+                type="text"
+                placeholder="Cargo"
+                formControlName="cargo"
+                required
+                matInput
+                [matAutocomplete]="auto">
+              <mat-hint>
+                Digite parte da descrição do cargo para pesquisar
+              </mat-hint>
+              <mat-icon matSuffix>search</mat-icon>
+              <mat-autocomplete
+                (optionSelected)="onCargoSelected($event)"
+                [displayWith]="displayFnCargo"
+                autoActiveFirstOption
+                #auto="matAutocomplete">
+                <mat-option
+                  *ngFor="let option of cargos | async"
+                  [value]="option">
+                  {{option.nomeCargo}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
         </div>
         <mat-tab-group>
           <mat-tab label="Dados pessoais">
@@ -125,6 +151,10 @@
                     required
                     matInput
                     [matAutocomplete]="auto">
+                  <mat-hint>
+                    Digite parte da descrição da cidade para pesquisar
+                  </mat-hint>
+                  <mat-icon matSuffix>search</mat-icon>
                   <mat-autocomplete
                     (optionSelected)="onCidadeSelected($event)"
                     [displayWith]="displayFnCidade"
@@ -170,6 +200,7 @@
           <button
             mat-raised-button
             class="btn-salvar"
+            [disabled]="formGroup.invalid"
             (click)="salvarFuncionario()">
             Salvar
           </button>

@@ -19,6 +19,7 @@ import { ConfirmDialogService } from './componentes/confirm-dialog/confirm-dialo
 import { CustomInputDateComponent } from './componentes/custom-input-date/custom-input-date.component';
 import { AlertService } from './service/alert.service';
 import { BreadcrumbComponent } from './componentes/breadcrumb/breadcrumb.component';
+import { MatTabsModule } from '@angular/material/tabs';
 @NgModule({
   declarations: [
     CustomInputDateComponent,
@@ -39,6 +40,7 @@ import { BreadcrumbComponent } from './componentes/breadcrumb/breadcrumb.compone
     MatAutocompleteModule,
     MatSnackBarModule,
     MatTableModule,
+    MatTabsModule,
     MatDialogModule,
     NgxMaskModule.forRoot(),
     CommonModule
@@ -59,6 +61,7 @@ import { BreadcrumbComponent } from './componentes/breadcrumb/breadcrumb.compone
     MatTableModule,
     MatDialogModule,
     NgxMaskModule,
+    MatTabsModule,
     CommonModule,
     BreadcrumbComponent
   ],

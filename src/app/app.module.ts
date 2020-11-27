@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MatPaginatorIntlBr } from './core/config/mat-paginator-int-blr';
 import localePt from '@angular/common/locales/pt';
+import { CargoModule } from './view/cargo/cargo.module';
 
 registerLocaleData(localePt);
 @NgModule({
@@ -18,7 +19,8 @@ registerLocaleData(localePt);
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CargoModule
   ],
   providers: [
     {
