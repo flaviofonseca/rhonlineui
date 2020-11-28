@@ -72,7 +72,7 @@
                 formControlName="cargo"
                 required
                 matInput
-                [matAutocomplete]="auto">
+                [matAutocomplete]="autoCargo">
               <mat-hint>
                 Digite parte da descrição do cargo para pesquisar
               </mat-hint>
@@ -81,7 +81,7 @@
                 (optionSelected)="onCargoSelected($event)"
                 [displayWith]="displayFnCargo"
                 autoActiveFirstOption
-                #auto="matAutocomplete">
+                #autoCargo="matAutocomplete">
                 <mat-option
                   *ngFor="let option of cargos | async"
                   [value]="option">
@@ -150,7 +150,7 @@
                     formControlName="cidade"
                     required
                     matInput
-                    [matAutocomplete]="auto">
+                    [matAutocomplete]="autoCidade">
                   <mat-hint>
                     Digite parte da descrição da cidade para pesquisar
                   </mat-hint>
@@ -158,8 +158,7 @@
                   <mat-autocomplete
                     (optionSelected)="onCidadeSelected($event)"
                     [displayWith]="displayFnCidade"
-                    autoActiveFirstOption
-                    #auto="matAutocomplete">
+                    #autoCidade="matAutocomplete">
                     <mat-option
                       *ngFor="let option of cidades | async"
                       [value]="option">

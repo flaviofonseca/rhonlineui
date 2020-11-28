@@ -138,13 +138,31 @@ export class CadastroFuncionarioComponent implements OnInit {
 
     const body: any = this.formGroup.getRawValue();
 
-    this.loadingService.addLoading();
-    this.funcionarioService.salvarFuncionario(body)
-      .pipe(finalize(() => this.loadingService.removerLoading()))
-      .subscribe(
-        result => this.salvarFuncionarioResult(result),
-        error => UtilError.dispatchMessageError(error, this.alertService)
-      );
+    try {
+      this.validarSalvar(body);
+      this.loadingService.addLoading();
+      this.funcionarioService.salvarFuncionario(body)
+        .pipe(finalize(() => this.loadingService.removerLoading()))
+        .subscribe(
+          result => this.salvarFuncionarioResult(result),
+          error => UtilError.dispatchMessageError(error, this.alertService)
+        );
+    } catch (eror) {
+      this.alertService.showSnackBarMessage({
+        message: eror.message, type: TypeSnackMessage.DANGER
+      });
+    }
+
+  }
+
+  private validarSalvar(body) {
+    if (!body?.pessoa?.cidade?.id) {
+      throw new Error('Selecione uma cidade.');
+    }
+
+    if (!body?.cargo?.id) {
+      throw new Error('Selecione um cargo.');
+    }
   }
 
   private salvarFuncionarioResult(result: any): void {
